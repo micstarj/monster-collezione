@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Collezione Monster</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&display=swap">
+<style>
+:root{--bg:#eef0ea;--card:#fff;--tx:#15180f;--mut:#667058;--ac:#3f8f00;--acx:#fff;--bd:#d9ddd0;--hd:'Barlow Condensed','Arial Narrow',Impact,sans-serif;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101309;--card:#1a1e12;--tx:#eef2e6;--mut:#9aa38a;--ac:#7fe000;--acx:#101309;--bd:#2b3120;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101309;--card:#1a1e12;--tx:#eef2e6;--mut:#9aa38a;--ac:#7fe000;--acx:#101309;--bd:#2b3120;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-tap-highlight-color:transparent}
+#main{max-width:560px;margin:0 auto;padding:16px 16px 110px}
+h1,h2,.big{font-family:var(--hd);font-weight:700;letter-spacing:.01em;margin:0}
+h1{font-size:34px;line-height:1}
+h2{font-size:22px;margin:22px 0 6px;display:flex;justify-content:space-between;align-items:baseline}
+h2 small{font:600 16px var(--hd);color:var(--mut)}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+button{font:inherit;color:inherit;cursor:pointer}
+.pri{background:var(--ac);color:var(--acx);border:0;border-radius:10px;padding:10px 16px;font-weight:700}
+.sec{background:transparent;border:1px solid var(--bd);border-radius:10px;padding:10px 16px}
+.danger{background:transparent;border:0;color:#d23b2a;padding:10px 4px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:8px 8px 10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.card img,.ph{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;background:var(--bg)}
+.ph{display:grid;place-items:center;font-size:40px}
+.pic{position:relative}
+.pic .t2{position:absolute;right:6px;bottom:6px;width:34%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;border:2px solid var(--card)}
+.photos{display:flex;gap:12px;margin-top:12px}
+.slot{flex:1;min-width:0}
+.slot img,.slot .ph{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px;margin-bottom:6px}
+.slot input[type=file]{width:100%;font-size:13px}
+.card b{font-size:15px;margin-top:6px;line-height:1.2}
+.card span{font-size:13px;color:var(--mut);min-height:1.2em}
+.chips{display:flex;gap:8px;margin:10px 0 4px}
+.chips button{border:1px solid var(--bd);background:transparent;border-radius:99px;padding:6px 14px}
+.chips button.on{background:var(--ac);color:var(--acx);border-color:var(--ac);font-weight:700}
+input[type=search],input[type=text],input[type=number]{width:100%;font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:11px 12px}
+.row{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid var(--bd)}
+.chk{width:26px;height:26px;border-radius:8px;border:2px solid var(--bd);display:grid;place-items:center;font-weight:700;flex:none;color:var(--acx)}
+.row.on .chk{background:var(--ac);border-color:var(--ac)}
+.nm{flex:1}
+.row:not(.on) .nm{color:var(--mut)}
+.ed{background:none;border:0;font-size:22px;line-height:1;padding:4px 10px;color:var(--mut)}
+.empty{color:var(--mut);padding:24px 4px}
+.big{font-size:84px;line-height:.9}
+.big small{font-size:34px;color:var(--mut)}
+.meter{height:12px;border-radius:99px;background:var(--bd);overflow:hidden;margin:12px 0 6px}
+.meter i{display:block;height:100%;background:var(--ac)}
+.bar{display:grid;grid-template-columns:90px 1fr 28px;gap:10px;align-items:center;margin:7px 0;font-size:15px}
+.bar i{height:10px;border-radius:99px;background:var(--ac);display:block;min-width:4px}
+.bar b{text-align:right}
+.hint{font-size:13px;color:var(--mut);margin-top:28px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;background:none;border:0;padding:8px 0;font:600 18px var(--hd);color:var(--mut)}
+nav button.on{color:var(--ac)}
+#sheet{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;z-index:20}
+#sheet[hidden]{display:none}
+.box{background:var(--bg);width:100%;max-width:560px;margin:0 auto;border-radius:18px 18px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));max-height:92%;overflow:auto}
+.box label{display:block;font-size:14px;color:var(--mut);margin:12px 0 4px}
+.box .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.photo{display:flex;gap:12px;align-items:center;margin-top:12px}
+.photo img,.photo .ph{width:84px;height:112px;aspect-ratio:auto;flex:none}
+.own{display:flex;gap:10px;align-items:center;margin:16px 0 4px;font-size:17px}
+.own input{width:22px;height:22px;accent-color:var(--ac)}
+.acts{display:flex;gap:10px;margin-top:16px;align-items:center}
+.acts .pri{flex:1}
+#warn{background:#d23b2a;color:#fff;padding:8px 12px;font-size:14px}
+button:focus-visible,input:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+</style>
+</head>
+<body>
+<div id="warn" hidden>Salvataggio non disponibile in questo browser: i dati si perdono alla chiusura.</div>
+<div id="main"></div>
+<nav>
+<button data-tab="collezione">Collezione</button>
+<button data-tab="lista">Lista</button>
+<button data-tab="stats">Statistiche</button>
+</nav>
+<div id="sheet" hidden></div>
+<script>
+const PRESETS={
+"Classiche":["Original Green","Zero Sugar","Lo-Carb","Absolutely Zero"],
+"Ultra":["Ultra White","Ultra Paradise","Ultra Blue","Ultra Red","Ultra Violet","Ultra Gold","Ultra Rosa","Ultra Fiesta","Ultra Peachy Keen","Ultra Watermelon","Ultra Strawberry Dreams","Ultra Sunrise","Ultra Fantasy Ruby Red","Ultra Black","Ultra Vice Guava"],
+"Juice":["Mango Loco","Pipeline Punch","Pacific Punch","Aussie Lemonade","Khaotic","Bad Apple","Papillon","Monarch","Ripper"],
+"Rehab":["Peach Tea","Lemonade","Wild Berry","Tea + Lemonade","Green Tea"],
+"Reserve":["White Pineapple","Watermelon","Orange Dreamsicle"],
+"Java":["Mean Bean","Loca Moca","Irish Crème","Vanilla Light","Salted Caramel"],
+"Mule":["Ginger Brew"],
+"Nitro":["Super Dry","Cosmic Peach"],
+"Edizioni speciali":["The Doctor","Lewis Hamilton","Assault","Import"]
+};
+const EXTRA={
+"Classiche":["Electric Blue","Orange Dreamsicle","Unleaded","Cuba Lima","Cuba Libre","M3","Import Light","M-100 Ghost","M-100 Phantom","Super Cola","Full Throttle","Uber Brew"],
+"Ultra":["Ultra Citron","Ultra Wild Passion","Ultra Blue Hawaiian"],
+"Juice":["Rio Punch","Khaos","M-80","Mixxd"],
+"Rehab":["Rojo Tea","Protean","Orangeade","Pink Lemonade","White Dragon Tea","Strawberry Lemonade","Watermelon","Lemonade Tea"],
+"Reserve":["Peaches n’ Crème"],
+"Java":["Café Latte","Triple Shot Mocha","Triple Shot French Vanilla","French Vanilla","Cold Brew Latte","Kona Blend","Swiss Chocolate","Irish Blend","Lo-Ball","Nut-Up","Big Black","Chai Hai","Russian","Toffee","Kona Cappuccino","Cold Brew Sweet Black","Farmer’s Oats","Vanilla Espresso","Espresso and Cream"],
+"Killer Brew":["Loca Moca","Mean Bean"],
+"Hydro":["Manic Melon","Tropical Thunder","Purple Passion","Blue Ice","Zero Sugar"],
+"Super Fuel":["Red Dawg","Blue Streak"],
+"Mutant":["Super Soda","Red Dawn","White Lightning"],
+"Dragon Tea":["Green Tea","Yerba Mate","White Tea","Ice Tea Lemon","Raspberry Tea","Peach Tea"],
+"Maxx / Extra Strength":["Maxx Super Dry","Maxx Eclipse","Maxx Solaris","Maxx Zero Sugar Mango Matic","Maxx Zero Sugar Rad Red","Extra Strength Super Dry","Extra Strength Anti Gravity","Extra Strength Black Ice","Extra Strength Killer-B","Nitrous Super Dry","Nitrous Killer-B"],
+"Dub / Punch":["Dub Mad Dog","Dub Baller’s Blend","Punch Mixxd","Punch Khaos","Punch Ripper","Punch Pipeline Punch","Punch Mango Loco","Punch Pacific Punch","Punch Bad Apple"],
+"The Beast Unleashed (alcolica)":["Mean Green","White Haze","Peach Perfect","Scary Berries"],
+"Versioni Giappone":["Monster Energy (Giappone)","Absolutely Zero (Giappone)","Zero Sugar (Giappone)","Khaos 50% (Giappone)","Khaos 30% (Giappone)","Pipeline Punch (Giappone)","Mango Loco (Giappone)","Aussie Style Lemonade (Giappone)","Papillon (Giappone)","Ripper (Giappone)","Bad Apple (Giappone)","Ultra (Giappone)","Ultra Paradise (Giappone)","Ultra Peachy Keen (Giappone)","Ultra Violet (Giappone)","Ultra Fantasy Ruby Red (Giappone)","Ultra Vice Guava (Giappone)"],
+"Muscle":["Chocolate","Vanilla","Coffee","Strawberry"],
+"Edizioni speciali":["Rossi","Lewis Hamilton Zero Sugar","Lando Norris","Red White Blue Razz","Gronk","Gronk Formula #87"]
+};
+for(const l in EXTRA){const c=PRESETS[l]||[];PRESETS[l]=c.concat(EXTRA[l].filter(n=>!c.includes(n)))}
+const PAESI=["Italia","Spagna","Francia","Germania","Regno Unito","Irlanda","Portogallo","Grecia","Polonia","Austria","Svizzera","Belgio","Paesi Bassi","USA","Messico","Brasile","Australia","Giappone"];
+let db=null,items=[],tab="collezione",flt="tutte",q="",edit=null,editLine=null;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function openDb(){return new Promise((res,rej)=>{try{const r=indexedDB.open("monster",1);r.onupgradeneeded=()=>r.result.createObjectStore("items",{keyPath:"id"});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
+function getAll(){return new Promise((res,rej)=>{const q=db.transaction("items").objectStore("items").getAll();q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+function put(it){if(!db)return;try{db.transaction("items","readwrite").objectStore("items").put(it)}catch(e){}}
+function del(id){if(!db)return;try{db.transaction("items","readwrite").objectStore("items").delete(id)}catch(e){}}
+function seed(){let n=0;for(const l in PRESETS)for(const f of PRESETS[l])items.push({id:"p"+(n++),name:f,line:l,owned:false,year:"",country:"",photo:"",custom:false})}
+
+function card(i){
+ return `<div class="card" data-a="edit" data-id="${i.id}"><div class="pic">${i.photo?`<img src="${i.photo}" alt="">`:`<div class="ph">🥫</div>`}${i.photo2?`<img class="t2" src="${i.photo2}" alt="Retro">`:""}</div><b>${esc(i.name)}</b><span>${[i.year,i.country].filter(Boolean).map(esc).join(", ")}</span></div>`;
+}
+function viewCol(){
+ const o=items.filter(i=>i.owned).sort((a,b)=>a.name.localeCompare(b.name));
+ return `<div class="top"><h1>Le mie lattine</h1><button class="pri" data-a="new">Aggiungi</button></div>`+
+  (o.length?`<div class="grid">${o.map(card).join("")}</div>`:`<p class="empty">Ancora nessuna lattina. Apri <b>Lista</b> e spunta quelle che hai.</p>`);
+}
+function rows(){
+ const f=items.filter(i=>(flt==="tutte"||(flt==="mancanti"?!i.owned:i.owned))&&i.name.toLowerCase().includes(q.toLowerCase()));
+ const g={};f.forEach(i=>{(g[i.line]=g[i.line]||[]).push(i)});
+ return Object.keys(g).map(l=>{const a=g[l];return `<h2><span>${esc(l)} <small>${a.filter(i=>i.owned).length}/${a.length}</small></span><button class="ed" data-a="eline" data-l="${esc(l)}" aria-label="Modifica linea ${esc(l)}">⋯</button></h2>`+a.map(i=>`<div class="row${i.owned?" on":""}" data-a="tog" data-id="${i.id}"><span class="chk">${i.owned?"✓":""}</span><span class="nm">${esc(i.name)}</span><button class="ed" data-a="edit" data-id="${i.id}" aria-label="Modifica ${esc(i.name)}">⋯</button></div>`).join("")}).join("")||`<p class="empty">Nessun risultato.</p>`;
+}
+function viewList(){
+ const ch=(k,t)=>`<button data-a="flt" data-k="${k}" class="${flt===k?"on":""}">${t}</button>`;
+ return `<div class="top"><h1>Lista gusti</h1><button class="pri" data-a="new">Aggiungi</button></div><input type="search" id="q" placeholder="Cerca un gusto" value="${esc(q)}"><div class="chips">${ch("tutte","Tutte")}${ch("mancanti","Mancanti")}${ch("mie","Ce l’ho")}</div><div id="rows">${rows()}</div>`;
+}
+function bars(map,byKey){
+ let e=Object.entries(map);
+ e=byKey?e.sort((a,b)=>String(b[0]).localeCompare(String(a[0]))):e.sort((a,b)=>b[1]-a[1]);
+ const mx=Math.max(1,...e.map(x=>x[1]));
+ return e.map(([k,v])=>`<div class="bar"><span>${esc(k)}</span><i style="width:${v/mx*100}%"></i><b>${v}</b></div>`).join("")||`<p class="empty">Nessun dato ancora.</p>`;
+}
+function viewStats(){
+ const o=items.filter(i=>i.owned),t=items.length,p=t?Math.round(o.length/t*100):0;
+ const pa={},an={},li={};
+ o.forEach(i=>{const c=i.country||"Non indicato",y=i.year||"Non indicato";pa[c]=(pa[c]||0)+1;an[y]=(an[y]||0)+1});
+ items.forEach(i=>{const x=li[i.line]||(li[i.line]=[0,0]);x[1]++;if(i.owned)x[0]++});
+ const lines=Object.keys(li).map(l=>`<div class="bar"><span>${esc(l)}</span><i style="width:${li[l][0]/li[l][1]*100}%"></i><b>${li[l][0]}/${li[l][1]}</b></div>`).join("");
+ return `<div class="top"><h1>Statistiche</h1></div><div class="big">${o.length}<small> / ${t}</small></div><div class="meter"><i style="width:${p}%"></i></div><div>${p}% della lista, ${t-o.length} mancanti</div><h2>Per linea</h2>${lines}<h2>Per paese</h2>${bars(pa)}<h2>Per anno</h2>${bars(an,true)}<p class="hint">Per averla come app: dal menu del browser scegli “Aggiungi alla schermata Home”.</p>`;
+}
+function render(){
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));
+ $("#main").innerHTML=tab==="collezione"?viewCol():tab==="lista"?viewList():viewStats();
+ renderSheet();
+}
+function renderSheet(){
+ const s=$("#sheet");
+ if(editLine){const L=editLine;s.hidden=false;s.innerHTML=`<div class="box" role="dialog" aria-label="Modifica linea"><h1>Modifica linea</h1><label for="f-line">Nome linea</label><input type="text" id="f-line" value="${esc(L.name)}"><p class="hint" style="margin-top:10px">${L.n} lattine in questa linea. Rinominandola cambia per tutte.</p><div class="acts"><button class="pri" data-a="lsave">Salva</button><button class="sec" data-a="lclose">Annulla</button><button class="danger" data-a="ldel">Elimina linea</button></div></div>`;return}
+ if(!edit){s.hidden=true;s.innerHTML="";return}
+ const e=edit;s.hidden=false;
+ s.innerHTML=`<div class="box" role="dialog" aria-label="Scheda lattina">
+ <h1>${e.isNew?"Nuova lattina":"Scheda lattina"}</h1>
+ <label for="f-name">Gusto</label><input type="text" id="f-name" value="${esc(e.name)}" placeholder="Es. Ultra Paradise">
+ <label for="f-linea">Linea</label><input type="text" id="f-linea" list="linee" value="${esc(e.line)}" placeholder="Es. Ultra"><datalist id="linee">${[...new Set(items.map(i=>i.line))].map(p=>`<option value="${esc(p)}">`).join("")}</datalist>
+ <div class="two"><div><label for="f-year">Anno</label><input type="number" id="f-year" inputmode="numeric" min="2002" max="2030" value="${esc(e.year)}"></div>
+ <div><label for="f-country">Paese</label><input type="text" id="f-country" list="paesi" value="${esc(e.country)}"></div></div>
+ <datalist id="paesi">${PAESI.map(p=>`<option value="${p}">`).join("")}</datalist>
+ <div class="photos"><div class="slot"><div id="prev">${e.photo?`<img src="${e.photo}" alt="">`:`<div class="ph">🥫</div>`}</div><label for="f-photo" style="margin:0 0 6px">Fronte</label><input type="file" id="f-photo" accept="image/*">${e.photo?`<button class="danger" type="button" data-a="rm1">Togli fronte</button>`:""}</div><div class="slot"><div id="prev2">${e.photo2?`<img src="${e.photo2}" alt="">`:`<div class="ph">🥫</div>`}</div><label for="f-photo2" style="margin:0 0 6px">Retro (facoltativa)</label><input type="file" id="f-photo2" accept="image/*">${e.photo2?`<button class="danger" type="button" data-a="rm2">Togli retro</button>`:""}</div></div>
+ <label for="f-note">Note</label><input type="text" id="f-note" value="${esc(e.note)}" placeholder="Es. edizione limitata, comprata a…">
+ <label class="own"><input type="checkbox" id="f-owned" ${e.owned?"checked":""}>Ce l’ho</label>
+ <div class="acts"><button class="pri" data-a="save">Salva</button><button class="sec" data-a="close">Annulla</button>${!e.isNew?`<button class="danger" data-a="del">Elimina</button>`:""}</div></div>`;
+}
+function shrink(file){return new Promise(res=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const m=640,k=Math.min(1,m/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=Math.round(img.width*k);c.height=Math.round(img.height*k);c.getContext("2d").drawImage(img,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.8))};img.src=r.result};r.readAsDataURL(file)})}
+function save(){
+ const e=edit,n=$("#f-name").value.trim();
+ if(!n){$("#f-name").focus();return}
+ e.name=n;e.line=$("#f-linea").value.trim()||"Altre";e.note=$("#f-note").value.trim();e.year=$("#f-year").value.trim();e.country=$("#f-country").value.trim();e.owned=$("#f-owned").checked;
+ const it=Object.assign({},e);delete it.isNew;
+ const k=items.findIndex(x=>x.id===it.id);
+ if(k<0)items.push(it);else items[k]=it;
+ put(it);edit=null;render();
+}
+document.addEventListener("click",ev=>{
+ const t=ev.target.closest("[data-a],nav button");
+ if(!t)return;
+ if(t.dataset.tab){tab=t.dataset.tab;render();window.scrollTo(0,0);return}
+ const a=t.dataset.a,id=t.dataset.id;
+ if(a==="tog"){const i=items.find(x=>x.id===id);i.owned=!i.owned;put(i);render()}
+ else if(a==="edit"){edit=Object.assign({},items.find(x=>x.id===id));renderSheet()}
+ else if(a==="new"){edit={id:"c"+Date.now(),name:"",line:"Altre",owned:true,year:"",country:"",photo:"",photo2:"",custom:true,isNew:true};renderSheet()}
+ else if(a==="flt"){flt=t.dataset.k;render()}
+ else if(a==="rm2"){edit.photo2="";$("#prev2").innerHTML=`<div class="ph">🥫</div>`;t.remove()}
+ else if(a==="rm1"){edit.photo="";$("#prev").innerHTML=`<div class="ph">🥫</div>`;t.remove()}
+ else if(a==="eline"){editLine={old:t.dataset.l,name:t.dataset.l,n:items.filter(x=>x.line===t.dataset.l).length};renderSheet()}
+ else if(a==="lsave"){const n=$("#f-line").value.trim();if(!n){$("#f-line").focus();return}items.forEach(i=>{if(i.line===editLine.old){i.line=n;put(i)}});editLine=null;render()}
+ else if(a==="lclose"){editLine=null;renderSheet()}
+ else if(a==="ldel"){if(!t.dataset.cd){t.dataset.cd="1";t.textContent="Sicuro? Elimina";return}const o=editLine.old;items.filter(i=>i.line===o).forEach(i=>del(i.id));items=items.filter(i=>i.line!==o);editLine=null;render()}
+ else if(a==="save")save();
+ else if(a==="close"){edit=null;renderSheet()}
+ else if(a==="del"){if(!t.dataset.cd){t.dataset.cd="1";t.textContent="Sicuro? Elimina";return}items=items.filter(x=>x.id!==edit.id);del(edit.id);edit=null;render()}
+});
+document.addEventListener("input",ev=>{if(ev.target.id==="q"){q=ev.target.value;$("#rows").innerHTML=rows()}});
+document.addEventListener("change",async ev=>{
+ if(ev.target.id==="f-photo2"&&ev.target.files[0]){edit.photo2=await shrink(ev.target.files[0]);$("#prev2").innerHTML=`<img src="${edit.photo2}" alt="">`;return}
+ if(ev.target.id==="f-photo"&&ev.target.files[0]){
+  edit.photo=await shrink(ev.target.files[0]);
+  $("#prev").innerHTML=`<img src="${edit.photo}" alt="">`;
+ }
+});
+(async()=>{
+ try{db=await openDb();items=await getAll()}catch(e){db=null;$("#warn").hidden=false}
+ let sd=false;try{sd=localStorage.getItem("monster_seeded")==="1"}catch(e){}
+ if(!items.length&&!sd){seed();items.forEach(put)}
+ try{if(items.length)localStorage.setItem("monster_seeded","1")}catch(e){}
+ try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}
+ render();
+})();
+</script>
+</body>
+</html>
